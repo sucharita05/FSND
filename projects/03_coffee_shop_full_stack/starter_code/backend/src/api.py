@@ -17,7 +17,7 @@ CORS(app)
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
-db_drop_and_create_all()
+#db_drop_and_create_all()
 
 ## ROUTES
 '''
@@ -43,8 +43,7 @@ def get_drinks():
     return jsonify({
     'success': True,
     "drinks": drinks
-    })
-
+    }), 200
 
 '''
 @TODO implement endpoint
@@ -57,7 +56,6 @@ def get_drinks():
 @app.route('/drinks-detail', methods=['GET'])
 def get_drinks_details():
     available_drinks = Drink.query.all()
-   
     drinks = [drink.long() for drink in available_drinks]
     
     if len(drinks) == 0:
@@ -67,7 +65,7 @@ def get_drinks_details():
     return jsonify({
     'success': True,
     "drinks": drinks
-    })
+    }), 200
 
 '''
 @TODO implement endpoint
@@ -93,7 +91,7 @@ def new_drinks():
         return jsonify({
             'success': True,
             'drinks': [new_drink.long()]
-        })
+        }), 200
     except:
         abort(422)
 
@@ -112,18 +110,23 @@ def new_drinks():
 def update_drinks(drink_id):
     # Get Drinks from json request
     body = request.get_json()
-    update_title = body.get('title')
-    update_recipe = body.get('recipe')
-    update_drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
-    if update_drink is None:
-        abort(404)
-    update_drink.title = update_title
-    update_title.recipe = update_recipe
-    update_drink.update()
-    return jsonify({
-        'success': True, 
-        'drinks': update_drink.long()
-     })
+    try:
+        update_drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
+        if update_drink is None:
+            abort(404)
+        update_drink.title = body.get('title', update_drink.title)
+        update_recipe = json.dumps(body.get('recipe'))
+        if update_recipe != "null":
+            update_drink.recipe = update_recipe
+        else:
+            update_drink.recipe
+        update_drink.update()
+        return jsonify({
+            'success': True, 
+            'drinks': [update_drink.long()]
+        }), 200
+    except:
+        abort(422)
 
 '''
 @TODO implement endpoint
@@ -150,8 +153,7 @@ def delete_drinks(drink_id):
         return jsonify({
             'success': True,
             'delete': drink_id
-         })
-
+         }), 200
     except:
         abort(404)
 
