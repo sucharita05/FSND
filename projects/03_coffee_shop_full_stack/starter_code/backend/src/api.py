@@ -54,7 +54,8 @@ def get_drinks():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks-detail', methods=['GET'])
-def get_drinks_details():
+@requires_auth('get:drinks-detail')
+def get_drinks_details(token):
     available_drinks = Drink.query.all()
     drinks = [drink.long() for drink in available_drinks]
     
@@ -77,7 +78,8 @@ def get_drinks_details():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks', methods=['POST'])
-def new_drinks():
+@requires_auth('post:drinks')
+def new_drinks(token):
     try:
         # Get Drinks from json request
         body = request.get_json()
@@ -107,7 +109,8 @@ def new_drinks():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
-def update_drinks(drink_id):
+@requires_auth('patch:drinks')
+def update_drinks(payload, drink_id):
     # Get Drinks from json request
     body = request.get_json()
     try:
@@ -139,7 +142,8 @@ def update_drinks(drink_id):
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks/<int:drink_id>', methods=['DELETE'])
-def delete_drinks(drink_id):
+@requires_auth('delete:drinks')
+def delete_drinks(payload, drink_id):
     try:
         # Get the drinks by id
         drink = Drink.query.filter(
@@ -196,3 +200,26 @@ def not_found(error):
 @TODO implement error handler for AuthError
     error handler should conform to general task above 
 '''
+@app.errorhandler(AuthError)
+def unprocessable(error):
+    return jsonify({
+                    "success": False,
+                    "error": AuthError,
+                    "message": "Error with authorization"
+                    }), AuthError
+
+@app.errorhandler(401)
+def page_not_found(error):
+    return jsonify({
+                    "success": False,
+                    "error": 401,
+                    "message": "Unauthorized"
+                    }), 401
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({
+      "success": False,
+      "error": 400,
+      "message": "bad request"
+      }), 400

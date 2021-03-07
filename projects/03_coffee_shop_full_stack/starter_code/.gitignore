@@ -13,5 +13,4 @@ test.db
 ehthumbs.db
 Thumbs.db
 
-frontend/node_modules
 backend/env
