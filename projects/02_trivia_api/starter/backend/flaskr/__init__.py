@@ -188,8 +188,8 @@ def create_app(test_config=None):
   def get_category_questions(category_id):
       # Get the category by id
       cat = Category.query.get(category_id)
-      # Abort 404 if the category is not found
 
+      # Abort 404 if the category is not found
       if cat is None:
         abort(404)
       # Get the corresponding questions

@@ -1,6 +1,6 @@
 .vscode
 __pycache__
-venv
+venv/
 
 # OS generated files #
 ######################
@@ -12,6 +12,6 @@ venv
 ehthumbs.db
 Thumbs.db
 
-node_modules
+node_modules/
 
-.zip
+*.zip
