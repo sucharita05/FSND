@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 database_name = "capstone"
-database_path = "postgres://{}/{}".format('localhost:5432', database_name)
+database_path = "postgresql://postgres:postgres@{}/{}".format('localhost:5432', database_name)
 
 db = SQLAlchemy()
 
@@ -66,7 +66,7 @@ class Movie(db.Model):
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
-    release_date = Column(Integer)
+    release_date = Column()
 
     def __init__(self, title, release_date):
         self.title = title
