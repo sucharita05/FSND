@@ -34,7 +34,7 @@ class Actor(db.Model):
     gender = Column(String)
     image_link = Column(String)
 
-    def __init__(self, name, age, gender):
+    def __init__(self, name, age, gender, image_link):
         self.name = name
         self.age = age
         self.gender = gender
@@ -69,11 +69,11 @@ class Movie(db.Model):
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
-    release_date = Column(String),
+    release_date = Column(String)
     image_link = Column(String)
 
 
-    def __init__(self, title, release_date):
+    def __init__(self, title, release_date, image_link):
         self.title = title
         self.release_date = release_date
         self.image_link = image_link
