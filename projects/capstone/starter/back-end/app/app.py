@@ -31,12 +31,12 @@ def create_app(test_config=None):
     @app.route('/about', methods=['GET'])
     def get_about():
         return jsonify({
+            'message': 'A Professional Casting Agency',
             'success': True
         }), 200
 
-  
   # Actors
-  #-------------------------------------
+  # -------------------------------------
 
     @app.route('/actors', methods=['GET'])
     def get_actor():
@@ -45,7 +45,7 @@ def create_app(test_config=None):
         actor_list = []
         for actor in actors:
             actor_list.append(
-                {"name": actor.name, "age": actor.age, "gender": actor.gender})
+                {"name": actor.name, "age": actor.age, "gender": actor.gender, "image_link": actor_list.image_link})
 
         if len(actors) == 0:
             abort(404)
@@ -65,6 +65,7 @@ def create_app(test_config=None):
         new_name = data.get('name')
         new_age = data.get('age')
         new_gender = data.get('gender')
+        new_image_link = data.get('image_link')
 
         # Validate to ensure no data is empty
         if (len(new_name) == 0 or new_age == 0 or len(new_gender) == 0):
@@ -73,14 +74,15 @@ def create_app(test_config=None):
         new_actors = Actor(
             name=new_name,
             age=new_age,
-            gender=new_gender
+            gender=new_gender,
+            image_link=new_image_link
         )
         # Insert the actor to the database
         new_actors.insert()
         # Get all actors
         new_actors = Actor.query.order_by(Actor.id).all()
         current_actor = [actor.format() for actor in new_actors]
-        
+
         # Return a success message
         return jsonify({
             'success': True,
@@ -105,6 +107,8 @@ def create_app(test_config=None):
         update_actor.age = data.get('age', update_actor.age)
         # Assign the data to update actor gender
         update_actor.gender = data.get('gender', update_actor.gender)
+        # Assign the data to update actor image
+        update_actor.image_link = data.get('image_link', update_actor.image_link)
         # Update the actor
         update_actor.update()
 
@@ -114,7 +118,6 @@ def create_app(test_config=None):
         }), 200
       except Exception:
           abort(400)
-
 
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     def delete_actors(actor_id):
@@ -137,10 +140,8 @@ def create_app(test_config=None):
       except Exception:
         abort(404)
 
-
-  
     # Movies
-    #--------------------------------------
+    # --------------------------------------
 
     @app.route('/movies', methods=['GET'])
     def get_movie():
@@ -148,7 +149,8 @@ def create_app(test_config=None):
         data = []
         for movie in movies:
             data.append({"title": movie.title,
-                         "release_date": movie.release_date})
+                         "release_date": movie.release_date,
+                         "image_link": movie.image_link})
 
         if len(movies) == 0:
             abort(404)
@@ -168,6 +170,7 @@ def create_app(test_config=None):
             abort(404)
         new_title = data.get('title')
         new_release_date = data.get('release_date')
+        new_image_link = data.get('image_link')
 
         # Validate to ensure no data is empty
         if (len(new_title) == 0 or new_release_date == 0):
@@ -175,14 +178,15 @@ def create_app(test_config=None):
         # Create a new movie instance
         new_movies = Movie(
             title=new_title,
-            release_date=new_release_date
+            release_date=new_release_date,
+            image_link=new_image_link
         )
         # Insert the movie to the database
         new_movies.insert()
         # Get all movies
         new_movies = Movie.query.order_by(Movie.id).all()
         current_movies = [movie.format() for movie in new_movies]
-        
+
         # Return a success message
         return jsonify({
             'success': True,
@@ -205,8 +209,11 @@ def create_app(test_config=None):
         # Assign the data to update movie title
         update_movie.title = data.get('title', update_movie.title)
         # Assign the data to update movie release date
-        update_movie.release_date = data.get('release_date', update_movie.release_date)
-        
+        update_movie.release_date = data.get(
+    'release_date', update_movie.release_date)
+        # Assign the data to update movie image
+        update_movie.image_link = data.get('image_link', update_movie.image_link)
+
         # Update the movie
         update_movie.update()
 
@@ -239,30 +246,38 @@ def create_app(test_config=None):
       except Exception:
         abort(404)
 
+
+    @app.route('/contact', methods=['GET'])
+    def get_contact():
+        return jsonify({
+          'message': 'Contact Us',
+          'success': True
+        }), 200
+
     # Create error handlers for all expected errors
-  @app.errorhandler(400)
-  def bad_request(error):
-    return jsonify({
-      'success': False,
-      'error': 400,
-      'message': 'Bad request'
-      }), 400
+    @app.errorhandler(400)
+    def bad_request(error):
+      return jsonify({
+        'success': False,
+        'error': 400,
+        'message': 'Bad request'
+        }), 400
 
-  @app.errorhandler(404)
-  def not_found(error):
-    return jsonify({
-      'success': False, 
-      'error': 404,
-      'message': 'Resource not found'
-      }), 404
+    @app.errorhandler(404)
+    def not_found(error):
+      return jsonify({
+        'success': False, 
+        'error': 404,
+        'message': 'Resource not found'
+        }), 404
 
-  @app.errorhandler(422)
-  def unprocessable(error):
-    return jsonify({
-      'success': False,
-      'error': 422,
-      'message': 'Unproceessable entity'
-      }), 422
+    @app.errorhandler(422)
+    def unprocessable(error):
+      return jsonify({
+        'success': False,
+        'error': 422,
+        'message': 'Unproceessable entity'
+        }), 422
 
 
     return app
