@@ -43,7 +43,6 @@ def create_app(test_config=None):
     @app.route('/actors', methods=['GET'])
     def get_actor():
         actors = Actor.query.all()
-        print(actors)
         actor_list = []
         for actor in actors:
             actor_list.append({"name": actor.name,
@@ -64,7 +63,6 @@ def create_app(test_config=None):
     def add_actors():
         try:
             data = request.get_json()
-            print(data)
             if data is None:
                 abort(404)
             new_name = data.get('name')
@@ -95,7 +93,7 @@ def create_app(test_config=None):
                 'total_actors': len(new_actors)
             }), 200
         except Exception:
-            abort(422)
+            abort(400)
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     def update_actors(actor_id):
@@ -145,7 +143,7 @@ def create_app(test_config=None):
             }), 200
 
         except Exception:
-            abort(404)
+            abort(422)
 
     # Movies
     # --------------------------------------
@@ -216,7 +214,7 @@ def create_app(test_config=None):
             }), 200
 
         except Exception:
-            abort(422)
+            abort(400)
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     def update_movies(movie_id):
@@ -267,7 +265,7 @@ def create_app(test_config=None):
             }), 200
 
         except Exception:
-            abort(404)
+            abort(422)
 
     @app.route('/contact', methods=['GET'])
     def get_contact():
