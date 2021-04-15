@@ -24,7 +24,6 @@ def create_app(test_config=None):
 
     @app.route('/', methods=['GET'])
     def get_home():
-        # return render_template('front-end/home.html')
         return jsonify({
             'message': 'Welcome to Star in Making',
             'success': True
