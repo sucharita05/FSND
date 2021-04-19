@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,16 +13,42 @@ import Contact from './pages/Contact';
 import './App.css';
 
 function App() {
-  // const [setHome] = useState([{}])
-  // useEffect(() => {
-  //   fetch('/about').then(response => response.json()).then(data => {
-  //     setHome(data);
-  //   }).catch(error => {
-  //     console.log(error)
-  //   })
+  const [actors, setActors] = useState([]);
+  const [recent_movies, setRecentMovies] = useState([]);
+  const [upcoming_movies, setUpcomingMovies] = useState([]);
 
-  // }, [])
-    return(
+  useEffect(() => {
+    updateActors();
+    updateRecentMovies();
+    updateUpcomingMovies();
+  }, []);
+
+  const updateActors = async () => {
+    const res = await fetch('/actors');
+    const data = await res.json();
+    console.log('Received response from API');
+    console.log(data);
+    setActors(data.actors);
+  }
+
+  const updateRecentMovies = async () => {
+    const res = await fetch('/movies');
+    const data = await res.json();
+    console.log('Received response from API');
+    console.log(data);
+    setRecentMovies(data.recent_movies);
+  }
+
+  const updateUpcomingMovies = async () => {
+    const res = await fetch('/movies');
+    const data = await res.json();
+    console.log('Received response from API');
+    console.log(data);
+    setUpcomingMovies(data.upcoming_movies);
+  }
+
+
+  return (
     <Router>
       <div>
         <Switch>
@@ -30,13 +56,14 @@ function App() {
             <About />
           </Route>
           <Route path="/actors">
-            <Actor />
+            <Actor actors={actors} />
           </Route>
           <Route path="/contact">
             <Contact />
           </Route>
           <Route path="/movies">
-            <Movie />
+            <Movie recent_movies={recent_movies} 
+            upcoming_movies={upcoming_movies} />
           </Route>
           <Route path="/">
             <Home />

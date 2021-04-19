@@ -6,17 +6,20 @@ from flask_sqlalchemy import SQLAlchemy
 from app import create_app
 from models import setup_db, Actor, Movie
 
-#This class represents the capstone test case
+# This class represents the capstone test case
+
+
 class CapstoneTestCase(unittest.TestCase):
-    
-    #Define test variables and initialize app.
+
+    # Define test variables and initialize app.
     def setUp(self):
-        
+
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "capstone_test"
-        self.database_path = "postgres://{}:{}@{}/{}".format('postgres','postgres','localhost:5432', self.database_name)
-    
+        self.database_path = "postgres://{}:{}@{}/{}".format(
+            'postgres', 'postgres', 'localhost:5432', self.database_name)
+
         # binds the app to the current context
         setup_db(self.app, self.database_path)
         with self.app.app_context():
@@ -25,10 +28,10 @@ class CapstoneTestCase(unittest.TestCase):
             # create all tables
             self.db.create_all()
 
-    #Executed after reach test  
+    # Executed after reach test
     def tearDown(self):
         pass
-    
+
     def test_get_home(self):
         response = self.client().get('/')
         # Check the status code and message
@@ -49,12 +52,13 @@ class CapstoneTestCase(unittest.TestCase):
         # Check for the total_actors and that the actors return data
         self.assertTrue(data['total_actors'])
         self.assertTrue(len(data['actors']))
-    
+
     # Tests that an actor can be created and is successful
     def test_post_new_actors(self):
         # Create variable for mock data to use as payload for post request
         self.new_actor = {
-            "name": "Test Actor Name",
+            "first_name": "Test Actor First Name",
+            "last_name": "Test Actor Last Name",
             "age": 30,
             "gender": "Test Gender",
             "image_link": "Test Image_ink"
@@ -77,7 +81,8 @@ class CapstoneTestCase(unittest.TestCase):
         # Create variable for mock actor data to use as payload for failed
         # add request
         self.new_actor = {
-            "name": "",
+            "first_name": "",
+            "last_name": "",
             "age": 29,
             "gender": "Male",
             "image_link": "https://www.google.com/"
@@ -160,7 +165,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(len(data['recent_movies']))
         self.assertTrue(data['upcoming_movies'])
         self.assertTrue(len(data['upcoming_movies']))
-    
+
     # Tests that a movie can be created and is successful
     def test_post_new_movies(self):
         # Create variable for mock data to use as payload for post request
@@ -202,7 +207,8 @@ class CapstoneTestCase(unittest.TestCase):
 
     def test_update_movie_release_date(self):
         # Updates the movie and loads the response data
-        response = self.client().patch('/movies/10', json={'release_date': '20/05/2021'})
+        response = self.client().patch(
+            '/movies/10', json={'release_date': '20/05/2021'})
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -263,4 +269,3 @@ class CapstoneTestCase(unittest.TestCase):
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
-

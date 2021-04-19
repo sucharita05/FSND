@@ -9531,7 +9531,8 @@ textarea.form-control {
     .blog-entry .text .heading {
       font-size: 24px;
       margin-bottom: 16px;
-      font-weight: 400; }
+      font-weight: 400;
+    height: 10vh; }
       .blog-entry .text .heading a {
         color: #fff; }
         .blog-entry .text .heading a:hover, .blog-entry .text .heading a:focus, .blog-entry .text .heading a:active {
@@ -10089,3 +10090,5 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+    

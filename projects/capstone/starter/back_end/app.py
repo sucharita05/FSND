@@ -41,10 +41,12 @@ def create_app(test_config=None):
 
     @app.route('/actors', methods=['GET'])
     def get_actor():
-        actors = Actor.query.all()
+        actors = Actor.query.order_by(Actor.first_name).all()
         actor_list = []
         for actor in actors:
-            actor_list.append({"name": actor.name,
+            actor_list.append({"id": actor.id,
+                               "first_name": actor.first_name,
+                               "last_name": actor.last_name,
                                "age": actor.age,
                                "gender": actor.gender,
                                "image_link": actor.image_link})
@@ -64,17 +66,19 @@ def create_app(test_config=None):
             data = request.get_json()
             if data is None:
                 abort(404)
-            new_name = data.get('name')
+            new_first_name = data.get('first_name')
+            new_last_name = data.get('last_name')
             new_age = data.get('age')
             new_gender = data.get('gender')
             new_image_link = data.get('image_link')
 
             # Validate to ensure no data is empty
-            if (len(new_name) == 0 or new_age == 0 or len(new_gender) == 0):
+            if (len(new_first_name) == 0 or len(new_last_name) == 0 or new_age == 0 or len(new_gender) == 0):
                 abort(400)
             # Create a new actor instance
             new_actors = Actor(
-                name=new_name,
+                first_name=new_first_name,
+                last_name=new_last_name,
                 age=new_age,
                 gender=new_gender,
                 image_link=new_image_link
@@ -104,8 +108,12 @@ def create_app(test_config=None):
             # Abort 404 if there is no actor to update
             if update_actor is None:
                 abort(404)
-            # Assign the data to update actor name
-            update_actor.name = data.get('name', update_actor.name)
+            # Assign the data to update actor first name
+            update_actor.first_name = data.get(
+                'first_name', update_actor.first_name)
+            # Assign the data to update actor last name
+            update_actor.last_name = data.get(
+                'last_name', update_actor.last_name)
             # Assign the data to update actor age
             update_actor.age = data.get('age', update_actor.age)
             # Assign the data to update actor gender
@@ -150,21 +158,23 @@ def create_app(test_config=None):
     @app.route('/movies', methods=['GET'])
     def get_movie():
         movies = Movie.query.all()
-        recent_movies = Movie.query.filter(
+        recent_movies = Movie.query.order_by(Movie.release_date).filter(
             Movie.release_date <= datetime.now()).all()
-        upcoming_movies = Movie.query.filter(
+        upcoming_movies = Movie.query.order_by(Movie.release_date).filter(
             Movie.release_date > datetime.now()).all()
         recent_movies_data = []
         upcoming_movies_data = []
         for movie in recent_movies:
-            recent_movies_data.append({"title": movie.title,
+            recent_movies_data.append({"id": movie.id,
+                                       "title": movie.title,
                                        "release_date": movie.release_date,
-                                       "image_link": movie.image_link,
+                                       "image_link": movie.image_link
                                        })
         for movie in upcoming_movies:
-            upcoming_movies_data.append({"title": movie.title,
+            upcoming_movies_data.append({"id": movie.id,
+                                        "title": movie.title,
                                          "release_date": movie.release_date,
-                                         "image_link": movie.image_link,
+                                         "image_link": movie.image_link
                                          })
 
         if len(movies) == 0:

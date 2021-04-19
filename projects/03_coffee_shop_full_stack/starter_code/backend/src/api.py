@@ -160,15 +160,6 @@ def not_found(error):
 
     # Create auth error handlers
 
-@app.errorhandler(AuthError)
-def unprocessable(error):
-    return jsonify({
-        "success": False,
-        "error": AuthError,
-        "message": "Error with authorization"
-    }), AuthError
-
-
 @app.errorhandler(401)
 def page_not_found(error):
     return jsonify({

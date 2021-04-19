@@ -9,7 +9,7 @@ class Home extends Component {
             <div>
                 <div className="page">
                     <nav id="colorlib-main-nav" role="navigation">
-                        <a href="#" className="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
+                        <a className="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
                         <div className="js-fullheight colorlib-table">
                             <div className="img" style={{ backgroundImage: 'url(assets/images/img-2.jfif)' }}></div>
                             <div className="colorlib-table-cell js-fullheight">
@@ -17,7 +17,7 @@ class Home extends Component {
                                     <div className="col-md-12 text-center">
                                         <h1 className="mb-4"><a href="index.html" className="logo">Star in Making<br /><span>Casting Agency</span></a></h1>
                                         <ul>
-                                        <li class="active"><a href="/"><span>Home</span></a></li>
+                                        <li className="active"><a href="/"><span>Home</span></a></li>
                                         <li><a href="/about"><span>About</span></a></li>
                                         <li><a href="/actors"><span>Actors</span></a></li>
                                         <li><a href="/movies"><span>Movies</span></a></li>

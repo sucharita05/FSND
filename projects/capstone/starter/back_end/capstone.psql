@@ -26,7 +26,8 @@ SET default_with_oids = false;
 
 CREATE TABLE public.actors (
     id integer NOT NULL,
-    name text,
+    first_name text,
+    last_name text,
     age integer,
     gender text,
     image_link text
@@ -111,7 +112,7 @@ ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movie
 -- Data for Name: actors; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.actors (id, name, age, gender, image_link) FROM stdin;
+COPY public.actors (id, first_name, last_name, age, gender, image_link) FROM stdin;
 1 Anny Smitha 22 Female Null
 14 Zain Imam 32 Male https://www.instantstories.com/uploads/stories/zain-imam/zain-imam-latest-hd-images-5epd-lg.jpg?v=1569221647
 15 Tiger Shroff 31 Male https://www.bollywoodhungama.com/wp-content/uploads/2020/10/Tiger-Shroff-plays-an-underground-fighter-in-Ganpat-2.jpg

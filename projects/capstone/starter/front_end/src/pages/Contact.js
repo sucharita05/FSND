@@ -6,7 +6,7 @@ class Contact extends Component {
             <div>
                 <div className="page">
                     <nav id="colorlib-main-nav" role="navigation">
-                        <a href="#" className="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
+                        <a className="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
                         <div className="js-fullheight colorlib-table">
                             <div className="img" style={{ backgroundImage: 'url(/assets/images/img-2.jfif)' }}></div>
                             <div className="colorlib-table-cell js-fullheight">
@@ -32,7 +32,7 @@ class Contact extends Component {
                                 <div className="colorlib-navbar-brand">
                                     <a className="colorlib-logo" href="index.html">Star In aking<br /><span>Casting Agency</span></a>
                                 </div>
-                                <a href="#" className="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+                                <a className="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
                             </div>
                         </header>
 
@@ -67,7 +67,7 @@ class Contact extends Component {
                                                 <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@starinmaking.com</a></p>
                                             </div>
                                             <div className="col-md-12 mb-3">
-                                                <p><span>Website:</span> <a href="#">starinmaking.com</a></p>
+                                                <p><span>Website:</span> <a href="www.starinmaking.com">www.starinmaking.com</a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -129,8 +129,8 @@ class Contact extends Component {
                                             <div className="block-23 mb-3">
                                                 <ul>
                                                     <li><span className="icon icon-map-marker"></span><span className="text">VL Mehta Road, Juhu, Mumbai – 400049, Maharashtra, India</span></li>
-                                                    <li><a href="#"><span className="icon icon-phone"></span><span className="text">+91 1234 987654</span></a></li>
-                                                    <li><a href="#"><span className="icon icon-envelope"></span><span className="text">info@starinmaking.com</span></a></li>
+                                                    <li><a><span className="icon icon-phone"></span><span className="text">+91 1234 987654</span></a></li>
+                                                    <li><a><span className="icon icon-envelope"></span><span className="text">info@starinmaking.com</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>

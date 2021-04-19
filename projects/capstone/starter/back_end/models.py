@@ -29,13 +29,15 @@ class Actor(db.Model):
     __tablename__ = 'actors'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
+    first_name = Column(String)
+    last_name = Column(String)
     age = Column(Integer)
     gender = Column(String)
     image_link = Column(String)
 
-    def __init__(self, name, age, gender, image_link):
-        self.name = name
+    def __init__(self, first_name, last_name, age, gender, image_link):
+        self.first_name = first_name
+        self.last_name = last_name
         self.age = age
         self.gender = gender
         self.image_link = image_link
