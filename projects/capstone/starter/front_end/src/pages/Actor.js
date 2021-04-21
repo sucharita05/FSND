@@ -43,7 +43,7 @@ function Actor({ actors }) {
 						<div className="container">
 							<div className="row no-gutters text align-items-end justify-content-center" data-scrollax-parent="true">
 								<div className="col-md-8 ftco-animate text-center">
-									<p className="breadcrumbs"><span className="mr-2"><a href="index.html">Home</a></span> <span>Models</span></p>
+									<p className="breadcrumbs"><span className="mr-2"><a href="index.html">Home</a></span> <span>Actors</span></p>
 									<h1 className="mb-5 bread">Our Top Actors</h1>
 								</div>
 							</div>
@@ -83,6 +83,10 @@ function Actor({ actors }) {
 																<p>Gender</p>
 																<span>{actor.gender}</span>
 															</div>
+															<div className="box">
+															<p>Edit</p>
+															<p>Delete</p>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -92,7 +96,7 @@ function Actor({ actors }) {
 								})}
 							</div>
 						</div>
-						<div className="row mt-5">
+						{/* <div className="row mt-5">
 							<div className="col text-center">
 								<div className="block-27">
 									<ul>
@@ -106,7 +110,7 @@ function Actor({ actors }) {
 									</ul>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</section>
 
 					<footer className="ftco-footer ftco-section img">
@@ -115,7 +119,7 @@ function Actor({ actors }) {
 							<div className="row mb-5">
 								<div className="col-md-3">
 									<div className="ftco-footer-widget mb-4">
-										<h2 className="ftco-heading-2 logo"><a href="index.html">Star In Making</a></h2>
+										<h2 className="ftco-heading-2 logo"><a href="/">Star In Making</a></h2>
 										<p>Becoming a celebrity is now a one step away. Build a portfolio & let it speak for you.</p>
 										<ul className="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
 											<li className="ftco-animate"><a><span className="icon-twitter"></span></a></li>

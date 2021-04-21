@@ -69,6 +69,7 @@ function Movie({ recent_movies, upcoming_movies }) {
 													<h3 className="heading mt-3"><a>{movie.title}</a></h3>
 													<p>{movie.release_date}</p>
 													<p><a href="https://in.bookmyshow.com" className="btn btn-primary">Book Tickets</a></p>
+													<p><span>Edit </span> Delete</p>
 												</div>
 											</div>
 											</div>

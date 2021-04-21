@@ -4,8 +4,10 @@ from flask import Flask, request, abort, jsonify
 import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+#import jose
 
 from models import setup_db, Actor, Movie
+#from .auth.auth import AuthError, requires_auth
 
 
 def create_app(test_config=None):
@@ -40,6 +42,7 @@ def create_app(test_config=None):
   # -------------------------------------
 
     @app.route('/actors', methods=['GET'])
+    #@requires_auth('get:actors')
     def get_actor():
         actors = Actor.query.order_by(Actor.first_name).all()
         actor_list = []
@@ -61,6 +64,7 @@ def create_app(test_config=None):
         }), 200
 
     @app.route('/actors/add', methods=['POST'])
+    #@requires_auth('post:actors')
     def add_actors():
         try:
             data = request.get_json()
@@ -95,10 +99,11 @@ def create_app(test_config=None):
                 'actors': current_actor,
                 'total_actors': len(new_actors)
             }), 200
-        except Exception:
+        except BaseException:
             abort(400)
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
+    #@requires_auth('patch:actors')
     def update_actors(actor_id):
         data = request.get_json()
 
@@ -128,10 +133,11 @@ def create_app(test_config=None):
             return jsonify({
                 'success': True
             }), 200
-        except Exception:
+        except BaseException:
             abort(400)
 
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+    #@requires_auth('delete:actors')
     def delete_actors(actor_id):
         try:
             # Get the actors by id
@@ -149,13 +155,14 @@ def create_app(test_config=None):
                 'deleted': actor_id
             }), 200
 
-        except Exception:
+        except BaseException:
             abort(422)
 
     # Movies
     # --------------------------------------
 
     @app.route('/movies', methods=['GET'])
+    #@requires_auth('get:movies')
     def get_movie():
         movies = Movie.query.all()
         recent_movies = Movie.query.order_by(Movie.release_date).filter(
@@ -190,6 +197,7 @@ def create_app(test_config=None):
         }), 200
 
     @app.route('/movies/add', methods=['POST'])
+    #@requires_auth('post:movies')
     def add_movies():
         try:
             data = request.get_json()
@@ -222,10 +230,11 @@ def create_app(test_config=None):
                 'total_movies': len(new_movies)
             }), 200
 
-        except Exception:
+        except BaseException:
             abort(400)
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
+    #@requires_auth('patch:movies')
     def update_movies(movie_id):
         data = request.get_json()
 
@@ -252,10 +261,11 @@ def create_app(test_config=None):
                 'success': True
             }), 200
 
-        except Exception:
+        except BaseException:
             abort(400)
 
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
+    #@requires_auth('delete:movies')
     def delete_movies(movie_id):
         try:
             # Get the movies by id
@@ -273,7 +283,7 @@ def create_app(test_config=None):
                 'deleted': movie_id
             }), 200
 
-        except Exception:
+        except BaseException:
             abort(422)
 
     @app.route('/contact', methods=['GET'])
@@ -307,6 +317,34 @@ def create_app(test_config=None):
             'error': 422,
             'message': 'Unproceessable entity'
         }), 422
+
+    #  # Create auth error handlers
+
+    # @app.errorhandler(401)
+    # def page_not_found(error):
+    #     return jsonify({
+    #         "success": False,
+    #         "error": 401,
+    #         "message": "Unauthorized"
+    #     }), 401
+
+
+    # @app.errorhandler(400)
+    # def bad_request(error):
+    #     return jsonify({
+    #         "success": False,
+    #         "error": 400,
+    #         "message": "bad request"
+    #     }), 400
+
+
+    # @app.errorhandler(403)
+    # def forbidden(error):
+    #     return jsonify({
+    #         "success": False,
+    #         "error": 403,
+    #         "message": "forbidden"
+    #     }), 403
 
     return app
 

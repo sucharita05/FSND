@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-// import {
-//     BrowserRouter as Link
-//   } from "react-router-dom";
+
 
 class Home extends Component {
     render() {
@@ -163,7 +161,7 @@ class Home extends Component {
                                             <h3 className="heading">Star In Making</h3>
                                             <h2 className="heading">A Professional Casting Agency</h2>
                                             <p></p>
-                                            <p>Star in Making <strong>is India’s First Digital Casting Agency</strong>that consists of Actors and Movies across India. We connect with aspiring Actors and Models, and help them connect with Casting Directors all over the Industry.</p>
+                                            <p>Star in Making <strong>is India’s First Digital Casting Agency</strong> that consists of Actors and Movies across India. We connect with aspiring Actors and Models, and help them connect with Casting Directors all over the Industry.</p>
                                             <p>We don't take any Commission from our Actors & Models on board.We bring together a whole team of photographers, studios, make-up artists, talent managers, production house tie-ups under one roof.</p>
                                         </div>
                                     </div>
