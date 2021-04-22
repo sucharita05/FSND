@@ -148,7 +148,7 @@ class Home extends Component {
                                 </div>
                             </div>
                         </section>
-
+  
 
                         <section className="ftco-section ftco-no-pt ftco-no-pb ftco-about-section">
                             <div className="container-fluid px-0">
@@ -162,54 +162,17 @@ class Home extends Component {
                                             <p></p>
                                             <p>Star in Making <strong>is India’s First Digital Casting Agency</strong> that consists of Actors and Movies across India. We connect with aspiring Actors and Models, and help them connect with Casting Directors all over the Industry.</p>
                                             <p>We don't take any Commission from our Actors & Models on board.We bring together a whole team of photographers, studios, make-up artists, talent managers, production house tie-ups under one roof.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section className="ftco-section bg-dark">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-3">
-                                        <div className="services ftco-animate text-center">
-                                            <div className="icon d-flex justify-content-center align-items-center"><span className="flaticon-shopping-bag"></span></div>
-                                            <div className="info mt-4">
-                                                <h3 className="mb-4">PORTFOLIO MANAGEMENT</h3>
-                                                <p>Portfolio management is done by the team of experts that will help you connect with the best modeling and casting agencies in town.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3">
-                                        <div className="services ftco-animate text-center">
-                                            <div className="icon d-flex justify-content-center align-items-center"><span className="flaticon-photo-camera"></span></div>
-                                            <div className="info mt-4">
-                                                <h3 className="mb-4">PHOTOGRAPHERS</h3>
-                                                <p>The best fashion photographers are on board. Your photographs are the first impression of you, so let it be the best. We trust in the best.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3">
-                                        <div className="services ftco-animate text-center">
-                                            <div className="icon d-flex justify-content-center align-items-center"><span className="flaticon-quality"></span></div>
-                                            <div className="info mt-4">
-                                                <h3 className="mb-4">STUDIO & MAKE-UP</h3>
-                                                <p>We provide studios for all kinds of photo shoots. Whenever make-up is needed, we have the best make-up artists at your service.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3">
-                                        <div className="services ftco-animate text-center">
-                                            <div className="icon d-flex justify-content-center align-items-center"><span className="flaticon-megaphone"></span></div>
-                                            <div className="info mt-4">
-                                                <h3 className="mb-4">MEDIA HOUSES</h3>
-                                                <p>We have a team set up for media house tie-ups. We love to ensure auditions and jobs for all those listed on our platform.</p>
+                                            <div className="col-md-6 col-lg-3 d-flex justify-content-center align-items-center ftco-animate">
+                                                <div className="btn-view">
+                                                    <p><a href="/about" className="btn btn-white py-3 px-5">Our Services</a></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
+                        
 
                         <section className="ftco-section ftco-no-pt ftco-no-pb">
                             <div className="container-fluid px-4">

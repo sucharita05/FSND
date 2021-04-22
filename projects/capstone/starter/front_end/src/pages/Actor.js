@@ -83,10 +83,6 @@ function Actor({ actors }) {
 																<p>Gender</p>
 																<span>{actor.gender}</span>
 															</div>
-															{/* <div className="box">
-															<p>Edit</p>
-															<p>Delete</p>
-															</div> */}
 														</div>
 													</div>
 												</div>
@@ -96,21 +92,6 @@ function Actor({ actors }) {
 								})}
 							</div>
 						</div>
-						{/* <div className="row mt-5">
-							<div className="col text-center">
-								<div className="block-27">
-									<ul>
-										<li><a>&lt;</a></li>
-										<li className="active"><span>1</span></li>
-										<li><a>2</a></li>
-										<li><a>3</a></li>
-										<li><a>4</a></li>
-										<li><a>5</a></li>
-										<li><a>&gt;</a></li>
-									</ul>
-								</div>
-							</div>
-						</div> */}
 					</section>
 
 					<footer className="ftco-footer ftco-section img">

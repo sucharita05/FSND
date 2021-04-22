@@ -8843,7 +8843,7 @@ header {
   margin-bottom: 30px; }
 
 .model-img {
-  height: 430px;
+  height: 380px;
   width: 100%;
   display: block;
   z-index: 0;
@@ -9185,7 +9185,7 @@ textarea.form-control {
   padding-top: 0; }
 
 .ftco-no-pb {
-  padding-bottom: 0; }
+  padding-bottom: 1em; }
 
 .ftco-bg-dark {
   background: #191919; }
