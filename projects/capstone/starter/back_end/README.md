@@ -56,23 +56,29 @@ A casting assistant is the lowest level of authority and is only permitted to vi
 
 Permissions:
 get:actors | get:movies
+get:home   | get:about
+get:contact
 
 - Casting Director
 A casting director mid-level authority and is permitted to view actors and movies as well as deleting an actor or adding an actor in the database and lastly, modifying actors and movies.
 
 Permissions:
 get:actors    | get:movies 
+get:home      | get:about
 delete:actors | post:actors
 patch:actors  | patch:movies
+get:contact
 
 - Executive Producer
 The executive producer is the highest level of authority and is permitted to do any of the actions across the application.
 
 Permissions:
+get:home      | get:about
 get:actors    | get:movies 
 delete:actors | delete:movies 
 post:actors   | post:movies
 patch:actors  | patch:movies
+get:contact
 
 ### Endpoints
 

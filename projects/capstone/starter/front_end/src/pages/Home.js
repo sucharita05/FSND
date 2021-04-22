@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 class Home extends Component {
     render() {
         return (
@@ -223,20 +222,20 @@ class Home extends Component {
                                     </div>
                                     <div className="col-md-6 col-lg-3 ftco-animate">
                                         <div className="model-entry">
-                                            <div className="model-img" style={{ backgroundImage: 'url(assets/images/image_10.jpg)' }}>
+                                            <div className="model-img" style={{ backgroundImage: 'url(assets/images/image_3.jpg)' }}>
                                                 <div className="name text-center">
-                                                    <h3><a href="#">Anny</a></h3>
+                                                    <h3><a href="#">Tiger</a></h3>
                                                 </div>
                                                 <div className="text text-center">
-                                                    <h3><a href="#">Anny<br /><span>Smitha</span></a></h3>
+                                                    <h3><a href="#">Tiger<br /><span>Shroff</span></a></h3>
                                                     <div className="d-flex models-info">
                                                         <div className="box">
                                                             <p>Age</p>
-                                                            <span>22</span>
+                                                            <span>31</span>
                                                         </div>
                                                         <div className="box">
                                                             <p>Gender</p>
-                                                            <span>Female</span>
+                                                            <span>Male</span>
                                                         </div>
                                                     </div>
                                                 </div>

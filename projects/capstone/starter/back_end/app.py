@@ -4,10 +4,10 @@ from flask import Flask, request, abort, jsonify
 import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-#import jose
+import jose
 
 from models import setup_db, Actor, Movie
-#from .auth.auth import AuthError, requires_auth
+from auth import AuthError, requires_auth
 
 
 def create_app(test_config=None):
@@ -42,8 +42,8 @@ def create_app(test_config=None):
   # -------------------------------------
 
     @app.route('/actors', methods=['GET'])
-    #@requires_auth('get:actors')
-    def get_actor():
+    @requires_auth('get:actors')
+    def get_actor(token):
         actors = Actor.query.order_by(Actor.first_name).all()
         actor_list = []
         for actor in actors:
@@ -64,8 +64,8 @@ def create_app(test_config=None):
         }), 200
 
     @app.route('/actors/add', methods=['POST'])
-    #@requires_auth('post:actors')
-    def add_actors():
+    @requires_auth('post:actors')
+    def add_actors(token):
         try:
             data = request.get_json()
             if data is None:
@@ -103,8 +103,8 @@ def create_app(test_config=None):
             abort(400)
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-    #@requires_auth('patch:actors')
-    def update_actors(actor_id):
+    @requires_auth('patch:actors')
+    def update_actors(payload, actor_id):
         data = request.get_json()
 
         try:
@@ -137,8 +137,8 @@ def create_app(test_config=None):
             abort(400)
 
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
-    #@requires_auth('delete:actors')
-    def delete_actors(actor_id):
+    @requires_auth('delete:actors')
+    def delete_actors(payload, actor_id):
         try:
             # Get the actors by id
             actor = Actor.query.filter(
@@ -162,8 +162,8 @@ def create_app(test_config=None):
     # --------------------------------------
 
     @app.route('/movies', methods=['GET'])
-    #@requires_auth('get:movies')
-    def get_movie():
+    @requires_auth('get:movies')
+    def get_movie(token):
         movies = Movie.query.all()
         recent_movies = Movie.query.order_by(Movie.release_date).filter(
             Movie.release_date <= datetime.now()).all()
@@ -197,8 +197,8 @@ def create_app(test_config=None):
         }), 200
 
     @app.route('/movies/add', methods=['POST'])
-    #@requires_auth('post:movies')
-    def add_movies():
+    @requires_auth('post:movies')
+    def add_movies(token):
         try:
             data = request.get_json()
 
@@ -234,8 +234,8 @@ def create_app(test_config=None):
             abort(400)
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-    #@requires_auth('patch:movies')
-    def update_movies(movie_id):
+    @requires_auth('patch:movies')
+    def update_movies(payload, movie_id):
         data = request.get_json()
 
         try:
@@ -265,8 +265,8 @@ def create_app(test_config=None):
             abort(400)
 
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-    #@requires_auth('delete:movies')
-    def delete_movies(movie_id):
+    @requires_auth('delete:movies')
+    def delete_movies(payload, movie_id):
         try:
             # Get the movies by id
             movie = Movie.query.filter(
@@ -318,33 +318,33 @@ def create_app(test_config=None):
             'message': 'Unproceessable entity'
         }), 422
 
-    #  # Create auth error handlers
+     # Create auth error handlers
 
-    # @app.errorhandler(401)
-    # def page_not_found(error):
-    #     return jsonify({
-    #         "success": False,
-    #         "error": 401,
-    #         "message": "Unauthorized"
-    #     }), 401
-
-
-    # @app.errorhandler(400)
-    # def bad_request(error):
-    #     return jsonify({
-    #         "success": False,
-    #         "error": 400,
-    #         "message": "bad request"
-    #     }), 400
+    @app.errorhandler(401)
+    def page_not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 401,
+            "message": "Unauthorized"
+        }), 401
 
 
-    # @app.errorhandler(403)
-    # def forbidden(error):
-    #     return jsonify({
-    #         "success": False,
-    #         "error": 403,
-    #         "message": "forbidden"
-    #     }), 403
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "bad request"
+        }), 400
+
+
+    @app.errorhandler(403)
+    def forbidden(error):
+        return jsonify({
+            "success": False,
+            "error": 403,
+            "message": "forbidden"
+        }), 403
 
     return app
 

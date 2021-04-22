@@ -83,10 +83,10 @@ function Actor({ actors }) {
 																<p>Gender</p>
 																<span>{actor.gender}</span>
 															</div>
-															<div className="box">
+															{/* <div className="box">
 															<p>Edit</p>
 															<p>Delete</p>
-															</div>
+															</div> */}
 														</div>
 													</div>
 												</div>
