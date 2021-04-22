@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 database_name = "capstone"
-database_path = "postgresql://{}:{}@{}/{}".format('postgres','postgres','localhost:5432', database_name)
+database_path = "postgresql://{}:{}@{}/{}".format(
+    'postgres', 'postgres', 'localhost:5432', database_name)
 
 db = SQLAlchemy()
 
@@ -21,9 +22,11 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
+
 '''
 Actors
 '''
+
 
 class Actor(db.Model):
     __tablename__ = 'actors'
@@ -63,9 +66,11 @@ class Actor(db.Model):
             'image_link': self.image_link
         }
 
+
 '''
 Movies
 '''
+
 
 class Movie(db.Model):
     __tablename__ = 'movies'
@@ -75,12 +80,11 @@ class Movie(db.Model):
     release_date = Column(String)
     image_link = Column(String)
 
-
     def __init__(self, title, release_date, image_link):
         self.title = title
         self.release_date = release_date
         self.image_link = image_link
-    
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
@@ -99,7 +103,3 @@ class Movie(db.Model):
             'release_date': self.release_date,
             'image_link': self.image_link
         }
-
-    
-
-

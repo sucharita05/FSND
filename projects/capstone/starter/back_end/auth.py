@@ -139,7 +139,8 @@ def requires_auth(permission=''):
             payload = verify_decode_jwt(token)
             # Validate claims and check the requested permission
             check_permissions(permission, payload)
-            # Return the decorator which passes the decoded payload to the decorated method
+            # Return the decorator which passes the decoded payload to the
+            # decorated method
             return f(payload, *args, **kwargs)
         return wrapper
     return requires_auth_decorator

@@ -26,6 +26,7 @@ def create_app(test_config=None):
 
     @app.route('/', methods=['GET'])
     def get_home():
+        # Return a success message
         return jsonify({
             'message': 'Welcome to Star in Making',
             'success': True
@@ -33,6 +34,7 @@ def create_app(test_config=None):
 
     @app.route('/about', methods=['GET'])
     def get_about():
+        # Return a success message
         return jsonify({
             'message': 'A Professional Casting Agency',
             'success': True
@@ -44,6 +46,7 @@ def create_app(test_config=None):
     @app.route('/actors', methods=['GET'])
     @requires_auth('get:actors')
     def get_actor(token):
+        # Get the actors order by first name
         actors = Actor.query.order_by(Actor.first_name).all()
         actor_list = []
         for actor in actors:
@@ -54,9 +57,11 @@ def create_app(test_config=None):
                                "gender": actor.gender,
                                "image_link": actor.image_link})
 
+        # Validate to ensure no data is empty
         if len(actors) == 0:
             abort(404)
 
+        # Return a success message
         return jsonify({
             'success': True,
             'actors': actor_list,
@@ -67,9 +72,12 @@ def create_app(test_config=None):
     @requires_auth('post:actors')
     def add_actors(token):
         try:
+            # Get the actors data
             data = request.get_json()
+            # Abort 404 if there is no actor data
             if data is None:
                 abort(404)
+            # Assign individual data from json data into variables
             new_first_name = data.get('first_name')
             new_last_name = data.get('last_name')
             new_age = data.get('age')
@@ -77,7 +85,8 @@ def create_app(test_config=None):
             new_image_link = data.get('image_link')
 
             # Validate to ensure no data is empty
-            if (len(new_first_name) == 0 or len(new_last_name) == 0 or new_age == 0 or len(new_gender) == 0):
+            if (len(new_first_name) == 0 or len(new_last_name)
+                    == 0 or new_age == 0 or len(new_gender) == 0):
                 abort(400)
             # Create a new actor instance
             new_actors = Actor(
@@ -105,6 +114,7 @@ def create_app(test_config=None):
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
     def update_actors(payload, actor_id):
+        # Get the actors data
         data = request.get_json()
 
         try:
@@ -164,9 +174,12 @@ def create_app(test_config=None):
     @app.route('/movies', methods=['GET'])
     @requires_auth('get:movies')
     def get_movie(token):
+        # Get all the movies data
         movies = Movie.query.all()
+        # Get the recent movies
         recent_movies = Movie.query.order_by(Movie.release_date).filter(
             Movie.release_date <= datetime.now()).all()
+        # Get upcoming movies
         upcoming_movies = Movie.query.order_by(Movie.release_date).filter(
             Movie.release_date > datetime.now()).all()
         recent_movies_data = []
@@ -179,14 +192,16 @@ def create_app(test_config=None):
                                        })
         for movie in upcoming_movies:
             upcoming_movies_data.append({"id": movie.id,
-                                        "title": movie.title,
+                                         "title": movie.title,
                                          "release_date": movie.release_date,
                                          "image_link": movie.image_link
                                          })
 
+        # Abort 404 if there is no movie data
         if len(movies) == 0:
             abort(404)
 
+        # Return a success message
         return jsonify({
             'success': True,
             'recent_movies': recent_movies_data,
@@ -200,10 +215,13 @@ def create_app(test_config=None):
     @requires_auth('post:movies')
     def add_movies(token):
         try:
+            # Get the movies data
             data = request.get_json()
 
+            # Abort 404 if there is no movie data
             if data is None:
                 abort(404)
+            # Assign individual data from json data into variables
             new_title = data.get('title')
             new_release_date = data.get('release_date')
             new_image_link = data.get('image_link')
@@ -219,7 +237,7 @@ def create_app(test_config=None):
             )
             # Insert the movie to the database
             new_movies.insert()
-            # Get all movies
+            # Get all the new movies
             new_movies = Movie.query.order_by(Movie.id).all()
             current_movies = [movie.format() for movie in new_movies]
 
@@ -236,6 +254,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
     def update_movies(payload, movie_id):
+        # Get the movies data
         data = request.get_json()
 
         try:
@@ -288,6 +307,7 @@ def create_app(test_config=None):
 
     @app.route('/contact', methods=['GET'])
     def get_contact():
+        # Return a success message
         return jsonify({
             'message': 'Contact Us',
             'success': True
@@ -328,7 +348,6 @@ def create_app(test_config=None):
             "message": "Unauthorized"
         }), 401
 
-
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
@@ -336,7 +355,6 @@ def create_app(test_config=None):
             "error": 400,
             "message": "bad request"
         }), 400
-
 
     @app.errorhandler(403)
     def forbidden(error):
