@@ -49,6 +49,9 @@ Setting the `FLASK_APP` variable to `app.py` directs flask to find the applicati
 ## API Documentation
 Here you can find authentication details, all existing endpoints, which methods can be used, how to work with them & example responses you´ll get.
 
+### Base URL
+https://star-in-making.herokuapp.com/
+
 ### Authentication
 
 - Casting Assistant:
