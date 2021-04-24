@@ -2,9 +2,21 @@ import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 
 from app import create_app
 from models import setup_db, Actor, Movie
+
+# take environment variables from .env.
+load_dotenv()
+
+# assigning env variables to contants
+CASTING_ASSISTANT = os.environ.get('CASTING_ASSISTANT_JWT')
+CASTING_DIRECTOR = os.environ.get('CASTING_DIRECTOR_JWT')
+EXECUTIVE_PRODUCER = os.environ.get('EXECUTIVE_PRODUCER_JWT')
+
+def get_headers(token):
+    return {'Authorization': f'Bearer {token}'}
 
 # This class represents the capstone test case
 
@@ -33,18 +45,18 @@ class CapstoneTestCase(unittest.TestCase):
         pass
 
     def test_get_home(self):
-        response = self.client().get('/')
+        response = self.client().get('/', headers=get_headers(CASTING_ASSISTANT))
         # Check the status code and message
         self.assertEqual(response.status_code, 200)
 
     def test_get_about(self):
-        response = self.client().get('/')
+        response = self.client().get('/', headers=get_headers(CASTING_ASSISTANT))
         # Check the status code and message
         self.assertEqual(response.status_code, 200)
 
     def test_get_actors(self):
         # Make the request and process the response
-        response = self.client().get('/actors')
+        response = self.client().get('/actors', headers=get_headers(CASTING_ASSISTANT))
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -54,7 +66,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(len(data['actors']))
 
     # Tests that an actor can be created and is successful
-    def test_post_new_actors(self):
+    def test_post_new_actor(self):
         # Create variable for mock data to use as payload for post request
         self.new_actor = {
             "first_name": "Test Actor First Name",
@@ -64,7 +76,7 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "Test Image_ink"
         }
         # Creates the new actor and loads the response data
-        response = self.client().post('/actors/add', json=self.new_actor)
+        response = self.client().post('/actors', json=self.new_actor, headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -88,17 +100,17 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "https://www.google.com/"
         }
         # make request and process response
-        response = self.client().post('/actors/add', json=self.new_actor)
+        response = self.client().post('/actors', json=self.new_actor, headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'Bad request')
+        self.assertEqual(data['message'], 'bad request')
 
     def test_update_actor_age(self):
         # Updates the actor and loads the response data
-        response = self.client().patch('/actors/21', json={'age': 28})
+        response = self.client().patch('/actors/21', json={'age': 28}, headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
         # Get the actor from the database
         actor = Actor.query.filter(Actor.id == 21).one_or_none()
@@ -114,30 +126,30 @@ class CapstoneTestCase(unittest.TestCase):
         # Update variable for mock actor data to use as payload for failed
         # patch request
         # make request and process response
-        response = self.client().patch('/actors/21')
+        response = self.client().patch('/actors/21', headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'Bad request')
+        self.assertEqual(data['message'], 'bad request')
 
     # Tests that  when a actor is deleted and is successful that it returns
     # appropriate response
     def test_delete_actor(self):
         # Delete the actor and process response
-        response = self.client().delete('/actors/19')
+        response = self.client().delete('/actors/33', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Get the actor from the database
-        actor = Actor.query.filter(Actor.id == 19).one_or_none()
+        actor = Actor.query.filter(Actor.id == 33).one_or_none()
 
         # Check the status code and message
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         # Check for the deleted actor, total_actors and that the
         # actors return data
-        self.assertTrue(data['deleted'], 19)
+        self.assertTrue(data['deleted'], 33)
         # Test no longer exist
         self.assertEqual(actor, None)
 
@@ -145,7 +157,7 @@ class CapstoneTestCase(unittest.TestCase):
     # response is delivered
     def test_422_if_actor_does_not_exist(self):
         # This tests an invalid id was entered
-        response = self.client().delete('/actors/100')
+        response = self.client().delete('/actors/100', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -155,7 +167,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     def test_get_movies(self):
         # Make the request and process the response
-        response = self.client().get('/movies')
+        response = self.client().get('/movies', headers=get_headers(CASTING_ASSISTANT))
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -175,8 +187,9 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "Test Image_ink"
         }
         # Creates the new movie and loads the response data
-        response = self.client().post('/movies/add', json=self.new_movie)
+        response = self.client().post('/movies', json=self.new_movie, headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
+        #print(data)
 
         # Check the status code and message
         self.assertEqual(response.status_code, 200)
@@ -197,18 +210,18 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "https://www.google.com/"
         }
         # make request and process response
-        response = self.client().post('/movies/add', json=self.new_movie)
+        response = self.client().post('/movies', json=self.new_movie, headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Check the status code and message
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'Bad request')
+        self.assertEqual(data['message'], 'bad request')
 
     def test_update_movie_release_date(self):
         # Updates the movie and loads the response data
         response = self.client().patch(
-            '/movies/10', json={'release_date': '20/05/2021'})
+            '/movies/10', json={'release_date': '20/05/2021'}, headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -221,30 +234,30 @@ class CapstoneTestCase(unittest.TestCase):
         # Update variable for mock movie data to use as payload for failed
         # patch request
         # make request and process response
-        response = self.client().patch('/movies/10')
+        response = self.client().patch('/movies/10', headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'Bad request')
+        self.assertEqual(data['message'], 'bad request')
 
     # Tests that  when a movie is deleted and is successful that it returns
     # appropriate response
     def test_delete_movie(self):
         # Delete the movie and process response
-        response = self.client().delete('/movies/9')
+        response = self.client().delete('/movies/17', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Get the movie from the database
-        movie = Movie.query.filter(Movie.id == 9).one_or_none()
+        movie = Movie.query.filter(Movie.id == 17).one_or_none()
 
         # Check the status code and message
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         # Check for the deleted movie, total_movies and that the
         # movies return data
-        self.assertTrue(data['deleted'], 9)
+        self.assertTrue(data['deleted'], 17)
         # Test no longer exist
         self.assertEqual(movie, None)
 
@@ -252,7 +265,7 @@ class CapstoneTestCase(unittest.TestCase):
     # response is delivered
     def test_422_if_movie_does_not_exist(self):
         # This tests an invalid id was entered
-        response = self.client().delete('/movies/100')
+        response = self.client().delete('/movies/100', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -261,7 +274,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Unproceessable entity')
 
     def test_get_contact(self):
-        response = self.client().get('/contact')
+        response = self.client().get('/contact', headers=get_headers(CASTING_ASSISTANT))
         # Check the status code and message
         self.assertEqual(response.status_code, 200)
 

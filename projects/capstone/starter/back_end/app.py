@@ -25,7 +25,8 @@ def create_app(test_config=None):
         return response
 
     @app.route('/', methods=['GET'])
-    def get_home():
+    @requires_auth('get:home')
+    def get_home(token):
         # Return a success message
         return jsonify({
             'message': 'Welcome to Star in Making',
@@ -33,7 +34,8 @@ def create_app(test_config=None):
         }), 200
 
     @app.route('/about', methods=['GET'])
-    def get_about():
+    @requires_auth('get:about')
+    def get_about(token):
         # Return a success message
         return jsonify({
             'message': 'A Professional Casting Agency',
@@ -68,12 +70,13 @@ def create_app(test_config=None):
             'total_actors': len(actors)
         }), 200
 
-    @app.route('/actors/add', methods=['POST'])
+    @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
-    def add_actors(token):
+    def add_actor(token):
         try:
             # Get the actors data
             data = request.get_json()
+            print(data)
             # Abort 404 if there is no actor data
             if data is None:
                 abort(404)
@@ -89,7 +92,7 @@ def create_app(test_config=None):
                     == 0 or new_age == 0 or len(new_gender) == 0):
                 abort(400)
             # Create a new actor instance
-            new_actors = Actor(
+            new_actor = Actor(
                 first_name=new_first_name,
                 last_name=new_last_name,
                 age=new_age,
@@ -97,16 +100,17 @@ def create_app(test_config=None):
                 image_link=new_image_link
             )
             # Insert the actor to the database
-            new_actors.insert()
+            new_actor.insert()
+            print(new_actor)
             # Get all actors
-            new_actors = Actor.query.order_by(Actor.id).all()
-            current_actor = [actor.format() for actor in new_actors]
+            new_actor = Actor.query.order_by(Actor.id).all()
+            current_actor = [actor.format() for actor in new_actor]
 
             # Return a success message
             return jsonify({
                 'success': True,
                 'actors': current_actor,
-                'total_actors': len(new_actors)
+                'total_actors': len(new_actor)
             }), 200
         except BaseException:
             abort(400)
@@ -211,9 +215,9 @@ def create_app(test_config=None):
             'upcoming_movies_count': len(upcoming_movies)
         }), 200
 
-    @app.route('/movies/add', methods=['POST'])
+    @app.route('/movies', methods=['POST'])
     @requires_auth('post:movies')
-    def add_movies(token):
+    def add_movie(token):
         try:
             # Get the movies data
             data = request.get_json()
@@ -230,22 +234,22 @@ def create_app(test_config=None):
             if (len(new_title) == 0 or new_release_date == 0):
                 abort(400)
             # Create a new movie instance
-            new_movies = Movie(
+            new_movie = Movie(
                 title=new_title,
                 release_date=new_release_date,
                 image_link=new_image_link
             )
             # Insert the movie to the database
-            new_movies.insert()
+            new_movie.insert()
             # Get all the new movies
-            new_movies = Movie.query.order_by(Movie.id).all()
-            current_movies = [movie.format() for movie in new_movies]
+            new_movie = Movie.query.order_by(Movie.id).all()
+            current_movies = [movie.format() for movie in new_movie]
 
             # Return a success message
             return jsonify({
                 'success': True,
                 'movies': current_movies,
-                'total_movies': len(new_movies)
+                'total_movies': len(new_movie)
             }), 200
 
         except BaseException:
@@ -306,7 +310,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/contact', methods=['GET'])
-    def get_contact():
+    @requires_auth('get:contact')
+    def get_contact(token):
         # Return a success message
         return jsonify({
             'message': 'Contact Us',
@@ -314,13 +319,6 @@ def create_app(test_config=None):
         }), 200
 
     # Create error handlers for all expected errors
-    @app.errorhandler(400)
-    def bad_request(error):
-        return jsonify({
-            'success': False,
-            'error': 400,
-            'message': 'Bad request'
-        }), 400
 
     @app.errorhandler(404)
     def not_found(error):
