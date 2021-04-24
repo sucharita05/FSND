@@ -133,7 +133,7 @@ POST '/actors'
 - Request Arguments: token
 - Returns: An object containing the newly created actors's id, each object in the list of modified actors and an object showing the total number of actors.
 
-Sample: curl http://127.0.0.1:5000/actors/add -X POST -H "Content-Type: application/json" -d '{"age": 32, "first_name": "Zain", "last_name": "Imam", "gender": "Male", "image_link": "https://www.instantstories.com/uploads/stories/zain-imam/zain-imam-latest-hd-images-5epd-lg.jpg?v=1569221647"}'
+Sample: curl http://127.0.0.1:5000/actors -X POST -H "Content-Type: application/json" -d '{"age": 32, "first_name": "Zain", "last_name": "Imam", "gender": "Male", "image_link": "https://www.instantstories.com/uploads/stories/zain-imam/zain-imam-latest-hd-images-5epd-lg.jpg?v=1569221647"}'
 
 {
     "actors": [
@@ -228,13 +228,13 @@ Sample: curl http://127.0.0.1:5000/movies
   "upcoming_movies_count": 2
 }
 
-POST '/movies/add'
+POST '/movies'
 
 - First checks that the token provided is allowed to perform this operation. If authorized, then takes in an object with key value pairs for the new movie namely the title, release_date and image_link.
 - Request Arguments: token
 - Returns: An object containing the newly created movie's id, each object in the list of modified movies and an object showing the total number of movies.
 
-Sample: curl http://127.0.0.1:5000/actors/add -X POST -H "Content-Type: application/json" -d '{ "title": "The Conjuring 3: The Devil Made Me Do It", "release_date": "Fri, 04 Jun 2021 00:00:00 GMT", "image_link": "https://1.bp.blogspot.com/-dMWqn6Tr5KU/XlJBeQgkcGI/AAAAAAAAAEU/7UMazYCaeQw9Ku3VrbRHcA58pa9udvLBwCLcBGAsYHQ/s640/The%2BConjuring%2BThe%2BDevil%2BMade%2BMe%2BDo%2BIt%2B%25282020%2529.jpg" }'
+Sample: curl http://127.0.0.1:5000/movies -X POST -H "Content-Type: application/json" -d '{ "title": "The Conjuring 3: The Devil Made Me Do It", "release_date": "Fri, 04 Jun 2021 00:00:00 GMT", "image_link": "https://1.bp.blogspot.com/-dMWqn6Tr5KU/XlJBeQgkcGI/AAAAAAAAAEU/7UMazYCaeQw9Ku3VrbRHcA58pa9udvLBwCLcBGAsYHQ/s640/The%2BConjuring%2BThe%2BDevil%2BMade%2BMe%2BDo%2BIt%2B%25282020%2529.jpg" }'
 
 {
     "movies": [
