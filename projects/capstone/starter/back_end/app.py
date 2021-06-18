@@ -1,6 +1,11 @@
 import os
 from datetime import datetime
-from flask import Flask, request, abort, jsonify
+from flask import (
+  Flask,
+  request,
+  jsonify,
+  abort
+)
 import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS

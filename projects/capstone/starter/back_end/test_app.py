@@ -15,6 +15,7 @@ CASTING_ASSISTANT = os.environ.get('CASTING_ASSISTANT_JWT')
 CASTING_DIRECTOR = os.environ.get('CASTING_DIRECTOR_JWT')
 EXECUTIVE_PRODUCER = os.environ.get('EXECUTIVE_PRODUCER_JWT')
 
+
 def get_headers(token):
     return {'Authorization': f'Bearer {token}'}
 
@@ -76,7 +77,8 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "Test Image_ink"
         }
         # Creates the new actor and loads the response data
-        response = self.client().post('/actors', json=self.new_actor, headers=get_headers(CASTING_DIRECTOR))
+        response = self.client().post('/actors', json=self.new_actor,
+                                      headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -100,7 +102,8 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "https://www.google.com/"
         }
         # make request and process response
-        response = self.client().post('/actors', json=self.new_actor, headers=get_headers(CASTING_DIRECTOR))
+        response = self.client().post('/actors', json=self.new_actor,
+                                      headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -110,7 +113,11 @@ class CapstoneTestCase(unittest.TestCase):
 
     def test_update_actor_age(self):
         # Updates the actor and loads the response data
-        response = self.client().patch('/actors/21', json={'age': 28}, headers=get_headers(CASTING_DIRECTOR))
+        response = self.client().patch(
+            '/actors/21',
+            json={
+                'age': 28},
+            headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
         # Get the actor from the database
         actor = Actor.query.filter(Actor.id == 21).one_or_none()
@@ -138,7 +145,8 @@ class CapstoneTestCase(unittest.TestCase):
     # appropriate response
     def test_delete_actor(self):
         # Delete the actor and process response
-        response = self.client().delete('/actors/33', headers=get_headers(EXECUTIVE_PRODUCER))
+        response = self.client().delete(
+            '/actors/33', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Get the actor from the database
@@ -157,7 +165,8 @@ class CapstoneTestCase(unittest.TestCase):
     # response is delivered
     def test_422_if_actor_does_not_exist(self):
         # This tests an invalid id was entered
-        response = self.client().delete('/actors/100', headers=get_headers(EXECUTIVE_PRODUCER))
+        response = self.client().delete(
+            '/actors/100', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -187,9 +196,10 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "Test Image_ink"
         }
         # Creates the new movie and loads the response data
-        response = self.client().post('/movies', json=self.new_movie, headers=get_headers(EXECUTIVE_PRODUCER))
+        response = self.client().post('/movies', json=self.new_movie,
+                                      headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
-        #print(data)
+        # print(data)
 
         # Check the status code and message
         self.assertEqual(response.status_code, 200)
@@ -210,7 +220,8 @@ class CapstoneTestCase(unittest.TestCase):
             "image_link": "https://www.google.com/"
         }
         # make request and process response
-        response = self.client().post('/movies', json=self.new_movie, headers=get_headers(EXECUTIVE_PRODUCER))
+        response = self.client().post('/movies', json=self.new_movie,
+                                      headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -221,7 +232,10 @@ class CapstoneTestCase(unittest.TestCase):
     def test_update_movie_release_date(self):
         # Updates the movie and loads the response data
         response = self.client().patch(
-            '/movies/10', json={'release_date': '20/05/2021'}, headers=get_headers(CASTING_DIRECTOR))
+            '/movies/10',
+            json={
+                'release_date': '20/05/2021'},
+            headers=get_headers(CASTING_DIRECTOR))
         data = json.loads(response.data)
 
         # Check the status code and message
@@ -246,7 +260,8 @@ class CapstoneTestCase(unittest.TestCase):
     # appropriate response
     def test_delete_movie(self):
         # Delete the movie and process response
-        response = self.client().delete('/movies/17', headers=get_headers(EXECUTIVE_PRODUCER))
+        response = self.client().delete(
+            '/movies/17', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Get the movie from the database
@@ -265,7 +280,8 @@ class CapstoneTestCase(unittest.TestCase):
     # response is delivered
     def test_422_if_movie_does_not_exist(self):
         # This tests an invalid id was entered
-        response = self.client().delete('/movies/100', headers=get_headers(EXECUTIVE_PRODUCER))
+        response = self.client().delete(
+            '/movies/100', headers=get_headers(EXECUTIVE_PRODUCER))
         data = json.loads(response.data)
 
         # Check the status code and message
